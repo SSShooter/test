@@ -3,7 +3,7 @@ path: "/github-api"
 date: "2019-01-14T10:35:11.123Z"
 title: "使用 github api 提交代码"
 tags: ["coding"]
----<br /><br />## 0. 总览
+---1## 0. 总览
 本文为大家提供一种使用 GitHub API 生成 Commit 的方法。通常我们会使用 Git 客户端 Commit 然后 Push 到 GitHub，但 GitHub 为我们提供了相关 API，可以直接通过 API 更新仓库。
 
 要搞清楚整个更新流程，需要先理解 Git 的数据结构。如下图所示，Git 会使用 Ref、Commit、Tree、Blob 等单位管理 Commit 和文件。<br />![](https://cdn.nlark.com/yuque/0/2019/png/196955/1547024344082-e04117d4-f97d-4bdc-aec8-1d17fe336835.png#align=left&display=inline&height=555&linkTarget=_blank&originHeight=595&originWidth=800&size=0&width=746)<br />所以要生成一个新的 Commit，需要从树状结构的叶到根按顺序生成，换句话说就是：Blob→Tree→Commit→Ref。
@@ -12,8 +12,8 @@ tags: ["coding"]
 
 1. 获取 Ref：Ref 指 [Git 的引用](https://git-scm.com/book/zh/v2/Git-%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86-Git-%E5%BC%95%E7%94%A8)。如果要发起 Commit，必须知道你的 Commit 要提交到什么地方去（Commit 是一个接一个的链状关系，所以需要知道上一个 Commit 的信息），这一步做的就是这件事。
 1. 获取 Commit：用于获取当前 Commit 的 tree 的 sha。
-1. 生成 Blob：相当于正常本地提交的 `add` 操作。
-1. 生成 Tree：构建一个新的 tree。这里需要用到的参数 `base_tree` 就是来自第二步的 Commit 信息。
+1. 生成 Blob：相当于正常本地提交的 add 操作。
+1. 生成 Tree：构建一个新的 tree。这里需要用到的参数 base_tree 就是来自第二步的 Commit 信息。
 1. 生成 Commit：提交你的 tree。至此已经完成提交。
 1. 更新 Ref：使 master 的指针指到你最新提交的版本。
 
@@ -23,7 +23,7 @@ tags: ["coding"]
 ### 1.1 文档地址
 [https://developer.github.com/v3/git/refs/#get-a-reference](https://developer.github.com/v3/git/refs/#get-a-reference)
 ### 1.2 请求地址
-`GET https://api.github.com/repos/ssshooter/test/git/refs/heads/master`
+GET https://api.github.com/repos/ssshooter/test/git/refs/heads/master
 ### 1.3 返回数据
 ```json
 {
@@ -41,7 +41,7 @@ tags: ["coding"]
 ### 2.1 文档地址
 [https://developer.github.com/v3/git/commits/#get-a-commit](https://developer.github.com/v3/git/commits/#get-a-commit)
 ### 2.2 请求地址
-`GET https://api.github.com/repos/ssshooter/test/git/commits/cda66de943082033f4b761639df77728d7bca4f0`
+GET https://api.github.com/repos/ssshooter/test/git/commits/cda66de943082033f4b761639df77728d7bca4f0
 ### 2.3 返回数据
 ```json
 {
@@ -78,7 +78,7 @@ tags: ["coding"]
 ### 3.1 文档地址
 [https://developer.github.com/v3/git/blobs/#create-a-blob](https://developer.github.com/v3/git/blobs/#create-a-blob)
 ### 3.2 请求地址
-`POST https://api.github.com/repos/ssshooter/test/git/blobs`
+POST https://api.github.com/repos/ssshooter/test/git/blobs
 ### 3.3 请求参数
 ```
 {
@@ -101,7 +101,7 @@ tags: ["coding"]
 POST https://api.github.com/repos/ssshooter/test/git/trees
 ```
 ### 4.3 请求参数
-注意：tree.path 可以写深层目录，如 `deep/deep/newFile.md`（前面不用写斜杠）
+注意：tree.path 可以写深层目录，如 deep/deep/newFile.md（前面不用写斜杠）
 ```javascript
 {
   "base_tree": "d7a57d28ace0db12773c7d70675f94a48da6421f", // commit tree 的 sha
@@ -144,7 +144,7 @@ POST https://api.github.com/repos/ssshooter/test/git/trees
 ### 5.1 文档地址
 [https://developer.github.com/v3/git/commits/#create-a-commit](https://developer.github.com/v3/git/commits/#create-a-commit)
 ### 5.2 请求地址
-`POST https://api.github.com/repos/ssshooter/test/git/commits`
+POST https://api.github.com/repos/ssshooter/test/git/commits
 ### 5.3 请求参数
 ```
 {
@@ -196,7 +196,7 @@ POST https://api.github.com/repos/ssshooter/test/git/trees
 ### 6.1 文档地址
 [https://developer.github.com/v3/git/refs/#update-a-reference](https://developer.github.com/v3/git/refs/#update-a-reference)
 ### 6.2 请求地址
-`https://api.github.com/repos/ssshooter/test/git/refs/heads/master`
+https://api.github.com/repos/ssshooter/test/git/refs/heads/master
 ### 6.3 请求参数
 ```
 {
