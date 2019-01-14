@@ -2,13 +2,16 @@
 path: "/github-api-commit"
 date: "2019-01-09T08:24:42.000Z"
 title: "使用 github api 提交代码"
-tags: ["coding","github"]
+tags: ["coding","github","api"]
 ---
-<br />
+
+
 ## 0. 总览
 本文为大家提供一种使用 GitHub API 生成 Commit 的方法。通常我们会使用 Git 客户端 Commit 然后 Push 到 GitHub，但 GitHub 为我们提供了相关 API，可以直接通过 API 更新仓库。
 
-要搞清楚整个更新流程，需要先理解 Git 的数据结构。如下图所示，Git 会使用 Ref、Commit、Tree、Blob 等单位管理 Commit 和文件。<br />![](https://cdn.nlark.com/yuque/0/2019/png/196955/1547024344082-e04117d4-f97d-4bdc-aec8-1d17fe336835.png#align=left&display=inline&height=555&linkTarget=_blank&originHeight=595&originWidth=800&size=0&width=746)<br />所以要生成一个新的 Commit，需要从树状结构的叶到根按顺序生成，换句话说就是：Blob→Tree→Commit→Ref。
+要搞清楚整个更新流程，需要先理解 Git 的数据结构。如下图所示，Git 会使用 Ref、Commit、Tree、Blob 等单位管理 Commit 和文件。
+![](https://cdn.nlark.com/yuque/0/2019/png/196955/1547024344082-e04117d4-f97d-4bdc-aec8-1d17fe336835.png#align=left&display=inline&height=555&linkTarget=_blank&originHeight=595&originWidth=800&size=0&width=746)
+所以要生成一个新的 Commit，需要从树状结构的叶到根按顺序生成，换句话说就是：Blob→Tree→Commit→Ref。
 
 使用 GitHub API 提交文件有以下步骤。虽然对于第一次接触的新手来说可能会有点复杂，但是理清关系之后思路便会很清晰了。
 
@@ -296,4 +299,6 @@ var updataRef = function(newCommitSha) {
 ```
 
 ## 参考文献
-[https://int128.hatenablog.com/entry/2017/09/05/161641](https://int128.hatenablog.com/entry/2017/09/05/161641)<br />[https://juejin.im/post/5c33f49de51d45523070f7bb](https://juejin.im/post/5c33f49de51d45523070f7bb)<br />[https://git-scm.com/book/zh/v2/Git-内部原理-Git-引用](https://git-scm.com/book/zh/v2/Git-%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86-Git-%E5%BC%95%E7%94%A8)
+[https://int128.hatenablog.com/entry/2017/09/05/161641](https://int128.hatenablog.com/entry/2017/09/05/161641)
+[https://juejin.im/post/5c33f49de51d45523070f7bb](https://juejin.im/post/5c33f49de51d45523070f7bb)
+[https://git-scm.com/book/zh/v2/Git-内部原理-Git-引用](https://git-scm.com/book/zh/v2/Git-%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86-Git-%E5%BC%95%E7%94%A8)
