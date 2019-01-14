@@ -90,6 +90,7 @@
 ```
 ## 4. 生成 tree
 ### 4.1 文档地址
+[https://developer.github.com/v3/git/trees/#create-a-tree](https://developer.github.com/v3/git/trees/#create-a-tree)
 ### 4.2 请求地址
 ```
 POST https://api.github.com/repos/ssshooter/test/git/trees
