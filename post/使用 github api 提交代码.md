@@ -6,6 +6,7 @@ tags: ["coding","github"]
 ---
 <br />
 ## 0. 总览
+
 本文为大家提供一种使用 GitHub API 生成 Commit 的方法。通常我们会使用 Git 客户端 Commit 然后 Push 到 GitHub，但 GitHub 为我们提供了相关 API，可以直接通过 API 更新仓库。
 
 要搞清楚整个更新流程，需要先理解 Git 的数据结构。如下图所示，Git 会使用 Ref、Commit、Tree、Blob 等单位管理 Commit 和文件。<br />![](https://cdn.nlark.com/yuque/0/2019/png/196955/1547024344082-e04117d4-f97d-4bdc-aec8-1d17fe336835.png#align=left&display=inline&height=555&linkTarget=_blank&originHeight=595&originWidth=800&size=0&width=746)<br />所以要生成一个新的 Commit，需要从树状结构的叶到根按顺序生成，换句话说就是：Blob→Tree→Commit→Ref。
@@ -215,6 +216,83 @@ tags: ["coding","github"]
         "type": "commit",
         "url": "https://api.github.com/repos/ssshooter/test/git/commits/45c58a9358b67fc81e4034cb36c5196d791686ef"
     }
+}
+```
+
+## 7. node.js 实践代码
+
+```javascript
+var updateGitHubRes = function(blob, path) {
+  var commitSha
+  var commitTreeSha
+  return getRef()
+    .then(({ data }) => {
+      commitSha = data.object.sha
+      return getCommit(commitSha)
+    })
+    .then(({ data }) => {
+      commitTreeSha = data.tree.sha
+      return createBlob(blob)
+    })
+    .then(({ data }) => {
+      var blobSha = data.sha
+      return createTree(commitTreeSha, path, blobSha)
+    })
+    .then(({ data }) => {
+      var treeSha = data.sha
+      return createCommit(commitSha, treeSha)
+    })
+    .then(({ data }) => {
+      var newCommitSha = data.sha
+      return updataRef(newCommitSha)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+var getRef = function() {
+  return axios.get(`/${owner}/${repo}/git/refs/heads/master`)
+}
+
+var getCommit = function(commitSha) {
+  return axios.get(`/${owner}/${repo}/git/commits/${commitSha}`)
+}
+
+var createBlob = function(content) {
+  return axios.post(`/${owner}/${repo}/git/blobs`, {
+    content,
+    encoding: 'utf-8'
+  })
+}
+
+var createTree = function(base_tree, path, sha) {
+  return axios.post(`/${owner}/${repo}/git/trees`, {
+    base_tree, // commit tree 的 sha
+    tree: [
+      {
+        path, // 文件路径
+        mode: '100644', // 类型，详情看文档
+        type: 'blob',
+        sha // 刚才生成的 blob 的 sha
+      }
+    ]
+  })
+}
+
+var createCommit = function(parentCommitSha, tree, message = 'update post') {
+  return axios.post(`/${owner}/${repo}/git/commits`, {
+    message,
+    parents: [parentCommitSha],
+    tree
+  })
+}
+
+var updataRef = function(newCommitSha) {
+  return axios.post(`/${owner}/${repo}/git/refs/heads/master`, {
+    sha: newCommitSha,
+    force: true
+  })
 }
 ```
 
