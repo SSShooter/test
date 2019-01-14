@@ -1,5 +1,4 @@
----<br />path: "/github-api"<br />date: "2019-01-14T10:35:11.123Z"<br />title: "使用 github api 提交代码"<br />tags: ["coding"]<br />---\n
-
+<tags>coding,github</tags>
 ## 0. 总览
 本文为大家提供一种使用 GitHub API 生成 Commit 的方法。通常我们会使用 Git 客户端 Commit 然后 Push 到 GitHub，但 GitHub 为我们提供了相关 API，可以直接通过 API 更新仓库。
 
@@ -20,7 +19,7 @@
 ### 1.1 文档地址
 [https://developer.github.com/v3/git/refs/#get-a-reference](https://developer.github.com/v3/git/refs/#get-a-reference)
 ### 1.2 请求地址
-GET https://api.github.com/repos/ssshooter/test/git/refs/heads/master
+`GET https://api.github.com/repos/ssshooter/test/git/refs/heads/master`
 ### 1.3 返回数据
 ```json
 {
@@ -38,7 +37,7 @@ GET https://api.github.com/repos/ssshooter/test/git/refs/heads/master
 ### 2.1 文档地址
 [https://developer.github.com/v3/git/commits/#get-a-commit](https://developer.github.com/v3/git/commits/#get-a-commit)
 ### 2.2 请求地址
-GET https://api.github.com/repos/ssshooter/test/git/commits/cda66de943082033f4b761639df77728d7bca4f0
+`GET https://api.github.com/repos/ssshooter/test/git/commits/cda66de943082033f4b761639df77728d7bca4f0`
 ### 2.3 返回数据
 ```json
 {
@@ -75,7 +74,7 @@ GET https://api.github.com/repos/ssshooter/test/git/commits/cda66de943082033f4b7
 ### 3.1 文档地址
 [https://developer.github.com/v3/git/blobs/#create-a-blob](https://developer.github.com/v3/git/blobs/#create-a-blob)
 ### 3.2 请求地址
-POST https://api.github.com/repos/ssshooter/test/git/blobs
+`POST https://api.github.com/repos/ssshooter/test/git/blobs`
 ### 3.3 请求参数
 ```
 {
@@ -94,9 +93,7 @@ POST https://api.github.com/repos/ssshooter/test/git/blobs
 ### 4.1 文档地址
 [https://developer.github.com/v3/git/trees/#create-a-tree](https://developer.github.com/v3/git/trees/#create-a-tree)
 ### 4.2 请求地址
-```
-POST https://api.github.com/repos/ssshooter/test/git/trees
-```
+`POST https://api.github.com/repos/ssshooter/test/git/trees`
 ### 4.3 请求参数
 注意：tree.path 可以写深层目录，如 deep/deep/newFile.md（前面不用写斜杠）
 ```javascript
@@ -141,7 +138,7 @@ POST https://api.github.com/repos/ssshooter/test/git/trees
 ### 5.1 文档地址
 [https://developer.github.com/v3/git/commits/#create-a-commit](https://developer.github.com/v3/git/commits/#create-a-commit)
 ### 5.2 请求地址
-POST https://api.github.com/repos/ssshooter/test/git/commits
+`POST https://api.github.com/repos/ssshooter/test/git/commits`
 ### 5.3 请求参数
 ```
 {
@@ -193,7 +190,7 @@ POST https://api.github.com/repos/ssshooter/test/git/commits
 ### 6.1 文档地址
 [https://developer.github.com/v3/git/refs/#update-a-reference](https://developer.github.com/v3/git/refs/#update-a-reference)
 ### 6.2 请求地址
-https://api.github.com/repos/ssshooter/test/git/refs/heads/master
+`https://api.github.com/repos/ssshooter/test/git/refs/heads/master`
 ### 6.3 请求参数
 ```
 {
