@@ -6,7 +6,6 @@ tags: ["coding","github"]
 ---
 <br />
 ## 0. 总览
-
 本文为大家提供一种使用 GitHub API 生成 Commit 的方法。通常我们会使用 Git 客户端 Commit 然后 Push 到 GitHub，但 GitHub 为我们提供了相关 API，可以直接通过 API 更新仓库。
 
 要搞清楚整个更新流程，需要先理解 Git 的数据结构。如下图所示，Git 会使用 Ref、Commit、Tree、Blob 等单位管理 Commit 和文件。<br />![](https://cdn.nlark.com/yuque/0/2019/png/196955/1547024344082-e04117d4-f97d-4bdc-aec8-1d17fe336835.png#align=left&display=inline&height=555&linkTarget=_blank&originHeight=595&originWidth=800&size=0&width=746)<br />所以要生成一个新的 Commit，需要从树状结构的叶到根按顺序生成，换句话说就是：Blob→Tree→Commit→Ref。
