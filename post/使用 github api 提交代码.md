@@ -1,10 +1,10 @@
 ---
-path: "coding,github"
+path: "/github-api-commit"
 date: "2019-01-09T08:24:42.000Z"
 title: "使用 github api 提交代码"
 tags: ["coding","github"]
 ---
-<tags>coding,github</tags><br /><path>/github-api</path>
+<br />
 ## 0. 总览
 本文为大家提供一种使用 GitHub API 生成 Commit 的方法。通常我们会使用 Git 客户端 Commit 然后 Push 到 GitHub，但 GitHub 为我们提供了相关 API，可以直接通过 API 更新仓库。
 
